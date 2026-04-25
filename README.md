@@ -1,48 +1,55 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+Notes App
+Aplikasi catatan sederhana yang dibangun menggunakan Kotlin Multiplatform (KMP). Aplikasi ini memungkinkan berbagi logika bisnis dan antarmuka pengguna (UI) di platform Android, iOS, dan Desktop (JVM) menggunakan satu basis kode.
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+🛠️ Teknologi yang Digunakan
+Compose Multiplatform: Framework untuk membangun UI deklaratif lintas platform.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+SQLDelight: Library database untuk mengelola SQLite dengan keamanan tipe data (type-safe).
 
-### Build and Run Android Application
+Coroutines & Flow: Digunakan untuk menangani operasi asynchronous dan pembaruan data secara real-time pada UI.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+Material 3: Standar desain antarmuka modern dari Google.
 
-### Build and Run Desktop (JVM) Application
+📂 Arsitektur Proyek
+Aplikasi ini menggunakan pola Expect/Actual untuk menangani perbedaan spesifik antar platform:
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
+commonMain: Berisi UI utama (App.kt) dan logika database yang sama untuk semua platform.
 
-### Build and Run iOS Application
+androidMain: Implementasi database menggunakan AndroidSqliteDriver yang membutuhkan Context.
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+iosMain: Implementasi menggunakan NativeSqliteDriver untuk ekosistem Apple.
 
----
+jvmMain: Implementasi menggunakan JdbcSqliteDriver untuk aplikasi Desktop.
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+📝 Fitur CRUD & Pencarian
+Berdasarkan skema database Note.sq, aplikasi mendukung:
+
+Create: Menambahkan catatan baru dengan judul dan isi.
+
+Read: Menampilkan daftar catatan yang diurutkan dari yang terbaru (ORDER BY created_at DESC).
+
+Update: Mengubah judul atau isi catatan yang sudah ada.
+
+Delete: Menghapus catatan secara permanen dari database.
+
+Search: Mencari catatan berdasarkan kata kunci pada judul atau isi menggunakan operator LIKE.
+
+⚙️ Cara Menjalankan Proyek
+Generate Database: Jalankan perintah ./gradlew generateSqliteDatabaseInterface di terminal Android Studio agar class database otomatis terbentuk.
+
+Sync Gradle: Pastikan semua library terpasang dengan menekan ikon gajah (Sync Project with Gradle Files).
+
+Run: Pilih target (Android Emulator, iOS Simulator, atau Desktop) dan tekan tombol Run.
+
+
+Dokumentasi
+-------------------------------------------------------------------------------------------------
+
+<img src="1.png" width="400" />
+<img src="2.png" width="400" />
+<img src="3.png" width="400" />
+<img src="4.png" width="400" />
+<img src="5.png" width="400" />
+<img src="6.png" width="400" />
+<img src="7.png" width="400" />
+<img src="8.png" width="400" />
